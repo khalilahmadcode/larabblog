@@ -1,0 +1,184 @@
+=================================================================================================
+for security issue: 
+
+1. 
+go to > C:\xampp\apache\conf\extra
+open file: httpd-vhosts.conf
+
+add below to the end: 
+---------------------------------------------------------
+<VirtualHost *:80>
+    DocumentRoot "C:/xampp/htdocs"
+    ServerName localhost
+</VirtualHost>
+
+<VirtualHost *:80>
+    DocumentRoot "C:/xampp/htdocs/larablog/public"
+    ServerName larablog.dev
+</VirtualHost>
+---------------------------------------------------------
+
+2.  
+- open notepad as adminstrator and brows  > C:\Windows\System32\drivers\etc
+- open .hosts
+
+Edit below in .hosts: 
+---------------------------------------------------------
+127.0.0.1 localhost
+127.0.0.1 larablog.dev
+---------------------------------------------------------
+
+=================================================================================================
+CREATE VIEWS
+
+1. 
+In /resources/views/
+defualt file is: welcome.blade.php
+create new folder: pages
+
+2.
+In /resources/views/pages/ 
+create: aboute.blade.php, services.blade.php
+
+3. 
+In "/resources/views/" 
+- create "inc" folder to put all files to be included. 
+
+4. 
+in /view/inc folder create file like navbar.blade.php, footer.blade.php 
+
+5. 
+in /views create folder called "layouts" 
+create the root file: app.blade.php
+All .blade.php files include in this file. 
+
+6. 
+ROUTE VIEWS
+
+FIRST) 
+MAKE CONTROLLER FOR VIEWS
+- open the terminal in root directory of project and type command bellow 
+$ php artisan make:controller PagesController
+find it in: /app/Http/Controllers/
+
+SECOND)
+In "/routes/web.php"
+Type: 
+------------------------------------------------------
+Route::get('/', 'PagesController@index');
+------------------------------------------------------
+'PagesController' is the pages and class name in "/app/Http/Controllers/Controller.php"
+'index' is a public function for controlling the index view. 
+
+Create below function in PagesController
+---------------------------------------------------------
+public function index() {
+    $title = "Welcome to LaraBlog!"; 
+    //return  view('pages.index', compact('title')); 
+    return view('pages.index')->with('title', $title);
+}
+---------------------------------------------------------
+
+================================================================================================
+CUSTOMIZED CSS
+1.
+--------------
+$ npm install 
+--------------
+
+2. 
+brows and have a looK at /resources/sass/ _variables.scss and app.scss
+make some change in _variables.scss
+
+Now run below commands
+------------------ 
+$ npm run dev
+------------------
+clear the cash using : ctr + f5
+
+To not change the scss file and '$ npm run dev' everytime, run below command
+--------------------
+$ npm run watch 
+--------------------
+Now create a file like _custom.scss in the "/resources/sass/" directory. Then include the file to 'app.scss file'.
+Write customized CSS in _custom.scss
+
+=================================================================================================
+
+CREATE MODEL 
+$ php artisan make:model Post -make
+find the fild in /app/Post.php
+
+=================================================================================================
+
+DATABASE SETTING
+1. ---------------------------------------
+create databse only in the /phpmyadmin
+
+2. -------------------------------------
+change the databse creditials in /.env
+DB_DATABASE=larablog
+DB_USERNAME=root
+DB_PASSWORD=
+ 
+============================================================================
+
+POST SETTINGS 
+1. ---------------------------------------------
+change below in /Provider/AppServiceProvider.php
+use Illuminate\Support\Facades\Schema; 
+Schema::defaultStringLength(191); 
+
+2. ---------------------------------------------------------------------------------------------------
+In" database/migrations/" chagne the current year file. like 2019_08_06_143121....create_post_table.php
+Add table column as below: 
+$table->string('title');
+$table->mediumText('body'); 
+
+3. ---------------------------
+At the end run below command:
+$ php artisan migrate
+
+==> now check your databse and tables. 
+
+4. --------------------------------------
+ENTER SOME DATA INOT DATABSE USING TERMINAL 
+$ php artistan tinker 
+>>>App\post::count() //show the post recods in table 
+>>> $post = new App\Post(); 
+>>> $post->title = 'Post One'; 
+>>>$post->body = 'This is the post body'; 
+$post->save(); 
+quite
+
+5. ------------------------------------------
+CHANGES IN PostsController 
+important functions: 
+-----
+index
+create
+store
+edit 
+update
+show
+destory
+---------
+Now create PostsController like below 
+$ php artisan make:controller PostsController --resource
+find it in: /app/Http/Controllers/
+
+==================================================================================
+
+ROUTE resources in PostsController.php
+
+1. -------------------------
+To list all routes 
+$ php artisan route:list 
+
+2. -----------------------
+To route all the post.function 
+in routes/web.php
+Route::resource('post', 'PostsController'); 
+
+
+
