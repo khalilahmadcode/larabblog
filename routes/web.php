@@ -40,4 +40,4 @@ Route::get('/services', 'PagesController@services');
 Route::get('/contactus', 'PagesController@contactus'); 
 
 // Route all Post function 
-Route::resource('posts', 'PostsController');
+Route::resource('posts', 'PostsController'); 

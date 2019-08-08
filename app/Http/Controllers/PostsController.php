@@ -23,7 +23,7 @@ class PostsController extends Controller
 
         // $posts = Post::orderBy('title', 'desc')->get();
         // $posts = Post::orderBy('title', 'desc')->take(1)->get();
-        $posts = Post::orderBy('title', 'desc')->paginate(10);
+        $posts = Post::orderBy('created_at', 'desc')->paginate(4);
         return view('posts.index')->with('posts', $posts); 
     }
 
@@ -34,7 +34,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create'); 
     }
 
     /**
@@ -45,7 +45,22 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required', 
+            'body' => 'required'
+        ]);
+
+        //print_r($request); 
+
+        //return 123; 
+
+        $data = new Post([
+            'title' => $request->get('title'), 
+            'body' => $request->get('body')
+        ]);
+
+        $data->save(); 
+        return redirect()->route('posts.create')->with('success', 'Date posted successfully.');
     }
 
     /**
@@ -68,7 +83,8 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id); 
+        return view('posts.edit')->with('post', $post); 
     }
 
     /**
@@ -80,7 +96,18 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required', 
+            'body' => 'required'
+        ]);
+
+        $form_data = array(
+            'title' => $request->title, 
+            'body' => $request->body
+        ); 
+
+        Post::whereId($id)->update($form_data); 
+        return redirect('/posts')->with('success', 'The post is successfully updated.');  
     }
 
     /**
@@ -91,6 +118,8 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Post::findOrFail($id);
+        $data->delete(); 
+        return redirect('/posts')->with('success', 'Date is succefully deleted.');
     }
 }

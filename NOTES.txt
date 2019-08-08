@@ -175,10 +175,27 @@ ROUTE resources in PostsController.php
 To list all routes 
 $ php artisan route:list 
 
-2. -----------------------
+2. ----------------------------
 To route all the post.function 
 in routes/web.php
-Route::resource('post', 'PostsController'); 
+Route::resource('post', 'PostsController');
+
+==================================================================================
+
+FETCHING POSTS ON BLOG PAGE
+
+1. ----------------------------
+create view for blog /views/posts/....
+
+2. ----------------------------------
+Update the PostsController.php
+index()
+show()
+
+3. ---------------------------------
+Update views /views/posts
+index.blade.php
+show.blade.php
 
 
 

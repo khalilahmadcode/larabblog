@@ -14,4 +14,6 @@ class Post extends Model
 
     // Time Stamp
     public $timeStamp = true; 
+
+    protected $fillable = ['title', 'body']; 
 }
