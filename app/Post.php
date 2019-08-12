@@ -16,4 +16,9 @@ class Post extends Model
     public $timeStamp = true; 
 
     protected $fillable = ['title', 'body']; 
+
+    // Relationship with User
+    public function user() {
+        return $this->belongsTo('App\User'); 
+    }
 }

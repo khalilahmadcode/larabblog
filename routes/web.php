@@ -35,9 +35,13 @@ Daynamic routing -----------------------
 
 // Route views
 Route::get('/', 'PagesController@index');
-Route::get('/about', 'PagesController@about'); 
+// Route::get('/aboutus', 'PagesController@index'); 
 Route::get('/services', 'PagesController@services');  
 Route::get('/contactus', 'PagesController@contactus'); 
 
+Route::resource('aboutus', 'AboutusController'); 
 // Route all Post function 
 Route::resource('posts', 'PostsController'); 
+Auth::routes();
+
+Route::get('/dashboard', 'DashboardController@index');

@@ -199,3 +199,61 @@ show.blade.php
 
 
 
+================================================================
+
+CREATE LARAVEL CKEDITOR 
+install, add and use. 
+
+====================================================================
+
+MIGRATION FOR AUTHENTICATION ( USER/PASSWORD )
+1. 
+if any change required in user database, update the file: /database/migrations/.....create-users-table.php
+
+2. 
+run the migrations commad 
+$ php artisan make:auth
+this command enable all the controller and authentications methods. 
+
+3. 
+change redirect to dashboard instead of home after login and registeration
+Now you are ready to go ahead. 
+
+============================================================
+
+CREATE TABLE FIELD USING MIGRATION
+Here we add a user_id field in posts table to differenciate every users posts
+
+1. 
+run below command 
+$ php artisan make:migration add_user_id_to_posts
+This command create a file in /migrations
+
+2. 
+In /database/migrations open the create migration files and change as below 
+> in: up() {
+    Schema::table('posts', function (Blueprint $table) {
+        $table->integer('user_id'); 
+    });
+}
+
+in: down() {
+    Schema::table('posts', function($table) {
+        $table->dropColumn('user_id'); 
+    });
+}
+
+3. 
+run below command 
+$ php artisan migrate
+and check posts table in database 
+
+4. 
+add below to PostsController
+$post->user_id = auth()->user()-id; 
+
+==========================================================================================
+
+USER AND POST RELATIONSHIP
+
+https://www.youtube.com/watch?v=42l4nHl_aUM&list=PLillGF-RfqbYhQsN5WMXy6VsDMKGadrJ-&index=10
